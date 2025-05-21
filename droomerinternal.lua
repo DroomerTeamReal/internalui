@@ -1,1 +1,1 @@
-info("Internal Is Currently Down")
+print("Internal UI Is Currently Down")
