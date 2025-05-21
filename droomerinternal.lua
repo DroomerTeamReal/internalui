@@ -229,9 +229,7 @@ G2L["15"]["Name"] = [[Drag]];
 
 -- StarterGui.InternalGUI.MainFrame.UserAgent
 G2L["16"] = Instance.new("LocalScript", G2L["2"]);
-G2L["16"]["Enabled"] = false;
 G2L["16"]["Name"] = [[UserAgent]];
-G2L["16"]["Disabled"] = true;
 
 
 -- StarterGui.InternalGUI.MainFrame.Scroll2
@@ -448,6 +446,25 @@ local script = G2L["15"];
 	
 end;
 task.spawn(C_15);
+-- StarterGui.InternalGUI.MainFrame.UserAgent
+local function C_16()
+local script = G2L["16"];
+	local frame = script.Parent
+	local executeButton = frame:WaitForChild("Execute")
+	local scriptBox = script.Parent.ScrollingFrame.TextBox
+	
+	-- 👇 This executes immediately on load
+	local originalRequest = getgenv().request or function(options) return nil end
+	getgenv().request = function(options)
+		if options.Headers then
+			options.Headers['User-Agent'] = 'Droomer Windows'
+		else
+			options.Headers = {['User-Agent'] = 'Droomer Windows'}
+		end
+		return originalRequest(options)
+	end
+end;
+task.spawn(C_16);
 -- StarterGui.InternalGUI.MainFrame.Scroll2
 local function C_17()
 local script = G2L["17"];
@@ -551,15 +568,23 @@ local script = G2L["1d"];
 		return "Droomer"
 	end
 	
-	-- Create a safe environment for execution
+	local function getidentity()
+		return "6"
+	end
+	
+	-- Custom safe environment
 	local customEnv = {
 		print = print,
 		warn = warn,
+	
+		-- Fake executor functions
 		identifyexecutor = identifyexecutor,
 		printidentity = printidentity,
 		whatexecutor = whatexecutor,
 		getexecutorname = getexecutorname,
-		-- allow basic functions
+		getidentity = getidentity,
+	
+		-- Common functions
 		pairs = pairs,
 		ipairs = ipairs,
 		tostring = tostring,
@@ -568,17 +593,16 @@ local script = G2L["1d"];
 		string = string,
 		table = table,
 		math = math,
-		-- optional: add more safe functions if needed
 	}
 	
-	setmetatable(customEnv, { __index = getfenv() }) -- inherit from global
+	setmetatable(customEnv, { __index = getfenv() }) -- fallback to global env
 	
 	executeButton.MouseButton1Click:Connect(function()
 		local code = scriptBox.Text
 		local func, err = loadstring(code)
 	
 		if func then
-			setfenv(func, customEnv) -- sandbox with custom functions
+			setfenv(func, customEnv)
 			local success, runErr = pcall(func)
 			if not success then
 				warn("Execution Error:", runErr)
