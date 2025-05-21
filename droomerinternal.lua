@@ -198,7 +198,7 @@ G2L["12"]["FontFace"] = Font.new([[rbxasset://fonts/families/Inconsolata.json]],
 G2L["12"]["TextColor3"] = Color3.fromRGB(151, 151, 151);
 G2L["12"]["BackgroundTransparency"] = 1;
 G2L["12"]["Size"] = UDim2.new(0, 200, 1, -10);
-G2L["12"]["Text"] = [[eriugniuhrenijregibhoregiun]];
+G2L["12"]["Text"] = [[Droomer]];
 G2L["12"]["Name"] = [[Title]];
 G2L["12"]["Position"] = UDim2.new(0, 10, 0, 5);
 
@@ -534,55 +534,57 @@ local script = G2L["1d"];
 	local executeButton = frame:WaitForChild("Execute")
 	local scriptBox = script.Parent.ScrollingFrame.TextBox
 	
-	-- Override implementations
+	-- Custom override functions
 	local function identifyexecutor()
-		return 'Droomer v2.0.0'
+		return "Droomer v2.0.0"
 	end
 	
 	local function printidentity()
-		print('Current identity is 6')
+		print("Current identity is 6")
 	end
 	
 	local function whatexecutor()
-		return 'Droomer v2.0.0'
+		return "Droomer v2.0.0"
 	end
 	
 	local function getexecutorname()
-		return 'Droomer'
+		return "Droomer"
 	end
 	
-	-- Custom environment for loadstring
-	local env = {
+	-- Create a safe environment for execution
+	local customEnv = {
+		print = print,
+		warn = warn,
 		identifyexecutor = identifyexecutor,
 		printidentity = printidentity,
 		whatexecutor = whatexecutor,
 		getexecutorname = getexecutorname,
-		print = print,
-		warn = warn,
-		pcall = pcall,
-		tonumber = tonumber,
+		-- allow basic functions
+		pairs = pairs,
+		ipairs = ipairs,
 		tostring = tostring,
+		tonumber = tonumber,
+		type = type,
 		string = string,
 		table = table,
 		math = math,
-		pairs = pairs,
-		ipairs = ipairs,
-		next = next,
-		type = type
+		-- optional: add more safe functions if needed
 	}
+	
+	setmetatable(customEnv, { __index = getfenv() }) -- inherit from global
 	
 	executeButton.MouseButton1Click:Connect(function()
 		local code = scriptBox.Text
-		local success, err = pcall(function()
-			local f = loadstring(code)
-			if f then
-				setfenv(f, env) -- sandbox it with custom overrides
-				f()
-			end
-		end)
+		local func, err = loadstring(code)
 	
-		if not success then
-			warn("Execution Error:", err)
+		if func then
+			setfenv(func, customEnv) -- sandbox with custom functions
+			local success, runErr = pcall(func)
+			if not success then
+				warn("Execution Error:", runErr)
+			end
+		else
+			warn("Compile Error:", err)
 		end
 	end)
 	
