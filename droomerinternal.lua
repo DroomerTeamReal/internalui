@@ -23,7 +23,6 @@ end
 -- MainFrame inserted into DevConsoleMaster
 G2L["2"] = Instance.new("Frame", DevConsoleMaster);
 G2L["2"]["Active"] = true;
-G2L["2"]["Visible"] = false
 G2L["2"]["ZIndex"] = 999999999;
 G2L["2"]["BorderSizePixel"] = 0;
 G2L["2"]["BackgroundColor3"] = Color3.fromRGB(26, 26, 26);
@@ -230,7 +229,9 @@ G2L["15"]["Name"] = [[Drag]];
 
 -- StarterGui.InternalGUI.MainFrame.UserAgent
 G2L["16"] = Instance.new("LocalScript", G2L["2"]);
+G2L["16"]["Enabled"] = false;
 G2L["16"]["Name"] = [[UserAgent]];
+G2L["16"]["Disabled"] = true;
 
 
 -- StarterGui.InternalGUI.MainFrame.Scroll2
@@ -261,6 +262,11 @@ G2L["1b"]["Name"] = [[Clear]];
 -- StarterGui.InternalGUI.MainFrame.Hide
 G2L["1c"] = Instance.new("LocalScript", G2L["2"]);
 G2L["1c"]["Name"] = [[Hide]];
+
+
+-- StarterGui.InternalGUI.MainFrame.UserAgent2
+G2L["1d"] = Instance.new("LocalScript", G2L["2"]);
+G2L["1d"]["Name"] = [[UserAgent2]];
 
 
 -- StarterGui.InternalGUI.MainFrame.Execute.TextAnim
@@ -440,25 +446,6 @@ local script = G2L["15"];
 	
 end;
 task.spawn(C_15);
--- StarterGui.InternalGUI.MainFrame.UserAgent
-local function C_16()
-local script = G2L["16"];
-	local frame = script.Parent
-	local executeButton = frame:WaitForChild("Execute")
-	local scriptBox = script.Parent.ScrollingFrame.TextBox
-	
-	-- 👇 This executes immediately on load
-	local originalRequest = getgenv().request or function(options) return nil end
-	getgenv().request = function(options)
-		if options.Headers then
-			options.Headers['User-Agent'] = 'Droomer Windows'
-		else
-			options.Headers = {['User-Agent'] = 'Droomer Windows'}
-		end
-		return originalRequest(options)
-	end
-end;
-task.spawn(C_16);
 -- StarterGui.InternalGUI.MainFrame.Scroll2
 local function C_17()
 local script = G2L["17"];
@@ -557,5 +544,159 @@ local script = G2L["1c"];
 	
 end;
 task.spawn(C_1c);
+-- StarterGui.InternalGUI.MainFrame.UserAgent2
+local function C_1d()
+local script = G2L["1d"];
+	local frame = script.Parent
+	local executeButton = frame:WaitForChild("Execute")
+	local scriptBox = script.Parent.ScrollingFrame.TextBox
+	
+	-- 👇 Custom request override with Droomer User-Agent
+	local originalRequest = getgenv().request or function(options) return nil end
+	getgenv().request = function(options)
+		if options.Headers then
+			options.Headers['User-Agent'] = 'Droomer'
+		else
+			options.Headers = {['User-Agent'] = 'Droomer'}
+		end
+		return originalRequest(options)
+	end
+	
+	-- Droomer Executor API
+	function identifyexecutor()
+		return 'Droomer v2.0.0'
+	end
+	
+	function printidentity()
+		print('Current identity is 6')
+	end
+	
+	function whatexecutor()
+		return 'Droomer v2.0.0'
+	end
+	
+	function getexecutorname()
+		return 'Droomer'
+	end
+	
+	function getscriptclosure(s)
+		return function()
+			local ok, result = pcall(function() return require(s) end)
+			if ok and type(result) == 'table' and table.clone then
+				return table.clone(result)
+			end
+			return result or nil
+		end
+	end
+	
+	function copy()
+		local Params = {
+			RepoURL = 'https://raw.githubusercontent.com/luau/SynSaveInstance/main/',
+			SSI = 'saveinstance',
+		}
+	
+		local synsaveinstance, err = pcall(function()
+			return loadstring(game:HttpGet(Params.RepoURL .. Params.SSI .. '.luau', true))()
+		end)
+	
+		if not synsaveinstance then
+			warn('Droomer | Failed to load SynSaveInstance script: ' .. err)
+			return
+		end
+	
+		local CustomOptions = {
+			SafeMode = true,
+			ReadMe = false,
+			timeout = 15,
+			SaveBytecode = true
+		}
+	
+		local success, err = pcall(function()
+			synsaveinstance(CustomOptions)
+		end)
+	
+		if not success then
+			warn('Droomer | Failed to execute saveinstance function: ' .. err)
+		else
+			print('Save instance operation completed successfully. | Droomer')
+		end
+	end
+	
+	function checkcaller()
+		local caller = debug.info(1, 'slnaf')
+		local up = debug.info(2, 'slnaf')
+		return caller ~= nil and caller == up
+	end
+	
+	function iy()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/pasteisback/ImpulseFiles/refs/heads/main/Scripts/InfinityYield.luau'))()
+	end
+	
+	function unc()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/pasteisback/ImpulseFiles/refs/heads/main/Scripts/UNC.luau'))()
+	end
+	
+	function moonhub()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/pasteisback/ImpulseFiles/refs/heads/main/Scripts/MoonHub.luau'))()
+	end
+	
+	function impulsehub()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/pasteisback/ImpulseFiles/refs/heads/main/Scripts/MoonHub.luau'))()
+	end
+	
+	function dex()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/pasteisback/ImpulseFiles/refs/heads/main/Scripts/Dex.luau'))()
+	end
+	
+	function cmdx()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source'))()
+	end
+	
+	function xvchub()
+		loadstring(game:HttpGet('https://pastebin.com/raw/Piw5bqGq'))()
+	end
+	
+	function simplespy()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/exxtremestuffs/SimpleSpySource/master/SimpleSpy.lua'))()
+	end
+	
+	function darkdex()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/peyton2465/Dex/master/out.lua'))()
+	end
+	
+	function trigbot()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/pasteisback/ImpulseFiles/refs/heads/main/Scripts/TriggerBot.luau'))()
+	end
+	
+	function owlhub()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt'))()
+	end
+	
+	function vgui()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
+	end
+	
+	function dexv2()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/infyiff/backup/main/dex.lua'))()
+	end
+	
+	function fatesadmin()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/fatesc/fates-admin/main/main.lua'))()
+	end
+	
+	-- EXECUTE BUTTON LOGIC
+	executeButton.MouseButton1Click:Connect(function()
+		local code = scriptBox.Text
+		if code and #code > 0 then
+			local success, result = pcall(function()
+				loadstring(code)()
+			end)
+			if not success then
+				warn("Droomer | Error executing script:\n" .. tostring(result))
+			end
+		end
+	end)
+end;
+task.spawn(C_1d);
 
 return G2L["1"], require;
