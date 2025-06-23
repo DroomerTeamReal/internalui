@@ -5793,7 +5793,7 @@ function checkkey()
 
     local savedkey = readfile("dsigfiureikuger.txt")
 
-	local keyless = "true"
+	local keyless = "false"
 	if string.find(keyless, "true") then
 		GrantAccess()
         return true
