@@ -1,20 +1,18 @@
 local UserInputService = game:GetService("UserInputService")
 
 local TRIGGER_KEY = Enum.KeyCode.Insert
+local hasRun = false
 
 local function ExecuteLoadstring()
-    local success, err = pcall(function()
+    pcall(function()
         loadstring(game:HttpGet("https://github.com/DroomerTeamReal/internalui/raw/refs/heads/main/imgui%20internal"))()
     end)
-
-    if not success then
-        warn("[Loadstring Error]:", err)
-    end
 end
 
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
-    if input.KeyCode == TRIGGER_KEY then
+    if input.KeyCode == TRIGGER_KEY and not hasRun then
+        hasRun = true
         ExecuteLoadstring()
     end
 end)
