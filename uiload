@@ -1,7 +1,6 @@
 local UserInputService = game:GetService("UserInputService")
 
 local TRIGGER_KEY = Enum.KeyCode.Insert
-local hasRun = false
 
 local function ExecuteLoadstring()
     pcall(function()
@@ -9,10 +8,12 @@ local function ExecuteLoadstring()
     end)
 end
 
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
+local connection
+connection = UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
-    if input.KeyCode == TRIGGER_KEY and not hasRun then
-        hasRun = true
+    if input.KeyCode == TRIGGER_KEY then
         ExecuteLoadstring()
+        connection:Disconnect()
+        script:Destroy()
     end
 end)
