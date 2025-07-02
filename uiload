@@ -14,6 +14,5 @@ connection = UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if input.KeyCode == TRIGGER_KEY then
         ExecuteLoadstring()
         connection:Disconnect()
-        script:Destroy()
     end
 end)
