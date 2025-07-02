@@ -1,4 +1,3 @@
-print("rat")
 local UserInputService = game:GetService("UserInputService")
 
 local TRIGGER_KEY = Enum.KeyCode.Insert
