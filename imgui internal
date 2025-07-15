@@ -56,7 +56,7 @@ ReGui:DefineTheme("Normal Theme", {
 })
 
 local Window = ReGui:TabsWindow({
-	Title = "Atlantis",
+	Title = "WAX",
 	Size = UDim2.fromOffset(400, 250),
 	NoClose = true
 })
