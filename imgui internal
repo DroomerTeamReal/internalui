@@ -112,23 +112,6 @@ EditorTab:Button({
 
 local OptionsTab = Window:CreateTab({Name = "Options"})
 
-OptionsTab:Combo({
-	Label = "Theme",
-	Options = {
-		"Dark Theme",
-		"Light Theme",
-		"Green Theme",
-		"Blue Theme",
-		"Pink Theme",
-		"Normal Theme"
-	},
-	Callback = function(selected)
-		ReGui:SetConfig({
-			Theme = selected
-		})
-	end
-})
-
 OptionsTab:Keybind({
 	Label = "Toggle Internal UI",
 	Value = Enum.KeyCode.Insert,
