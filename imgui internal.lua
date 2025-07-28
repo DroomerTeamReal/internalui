@@ -56,7 +56,7 @@ ReGui:DefineTheme("Normal Theme", {
 })
 
 local Window = ReGui:TabsWindow({
-	Title = "WAX",
+	Title = "Frostware",
 	Size = UDim2.fromOffset(400, 250),
 	NoClose = true
 })
@@ -66,7 +66,7 @@ local EditorTab = Window:CreateTab({Name = "Editor"})
 local IDE = IDEModule.CodeFrame.new({
 	Editable = true,
 	FontSize = 13,
-	Text = [[print("Hello World")]]
+	Text = [[--Frostware]]
 })
 
 ReGui:ApplyFlags({
