@@ -110,6 +110,8 @@ EditorTab:Button({
 	Parent = buttonFrame
 })
 
+IDE:SetText("")
+wait(0.5
 IDE:SetText("--Frostware")
 
 local OptionsTab = Window:CreateTab({Name = "Options"})
