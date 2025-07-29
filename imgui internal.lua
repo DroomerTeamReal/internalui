@@ -119,3 +119,5 @@ OptionsTab:Keybind({
 		Window:ToggleVisibility()
 	end,
 })
+
+Window:ToggleVisibility()
